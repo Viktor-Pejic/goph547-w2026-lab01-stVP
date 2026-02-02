@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def gravity_potential_point(x, xm, m, G=6.674e-11) :
     """
     Compute the gravity potential due to a point mass.
@@ -19,6 +22,15 @@ def gravity_potential_point(x, xm, m, G=6.674e-11) :
     Gravity potential at x due to anomaly at xm.
 
     """
+    x = np.array(x)
+    xm = np.array(xm)
+
+    r = np.linalg.norm(x - xm)
+
+    U = (G * m) / r
+
+    return U
+
 def gravity_effect_point(x, xm, m, G=6.674e-11) :
     """Compute the vertical gravity effect due to a point
     mass (positive downward).
@@ -39,3 +51,11 @@ def gravity_effect_point(x, xm, m, G=6.674e-11) :
     float
     Gravity effect at x due to anomaly at xm.
     """
+    x = np.array(x)
+    xm = np.array(xm)
+
+    r = np.linalg.norm(x - xm)
+    z = x - xm
+
+    gz = -(G * m * z[2]) / (r) ** 3
+    return gz
