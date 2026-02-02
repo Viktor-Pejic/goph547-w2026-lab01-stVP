@@ -14,35 +14,30 @@ x_5, y_5 = np.meshgrid(
     np.linspace(-100, 100, 41), np.linspace(-100,100, 41)
 )
 
-def compute_field(x_5, y_5, x_25, y_25, z_levels, xm, m):
 
-    U_5  = np.zeros((x_5.shape[0],  x_5.shape[1],  len(z_levels)))
-    gz_5 = np.zeros((x_5.shape[0],  x_5.shape[1],  len(z_levels)))
 
-    U_25  = np.zeros((x_25.shape[0], x_25.shape[1], len(z_levels)))
-    gz_25 = np.zeros((x_25.shape[0], x_25.shape[1], len(z_levels)))
+U_5  = np.zeros((x_5.shape[0],  x_5.shape[1],  len(z_levels)))
+gz_5 = np.zeros((x_5.shape[0],  x_5.shape[1],  len(z_levels)))
 
-    # ---- 5 m grid ----
-    for k, z in enumerate(z_levels):
-        for i in range(x_5.shape[0]):
-            for j in range(x_5.shape[1]):
-                x = np.array([x_5[i, j], y_5[i, j], z])
-                U_5[i, j, k]  = gravity_potential_point(x, xm, m)
-                gz_5[i, j, k] = gravity_effect_point(x, xm, m)
+U_25  = np.zeros((x_25.shape[0], x_25.shape[1], len(z_levels)))
+gz_25 = np.zeros((x_25.shape[0], x_25.shape[1], len(z_levels)))
 
-    # ---- 25 m grid ----
-    for k, z in enumerate(z_levels):
-        for i in range(x_25.shape[0]):
-            for j in range(x_25.shape[1]):
-                x = np.array([x_25[i, j], y_25[i, j], z])
-                U_25[i, j, k]  = gravity_potential_point(x, xm, m)
-                gz_25[i, j, k] = gravity_effect_point(x, xm, m)
+# ---- 5 m grid ----
+for k, z in enumerate(z_levels):
+    for i in range(x_5.shape[0]):
+        for j in range(x_5.shape[1]):
+            x = np.array([x_5[i, j], y_5[i, j], z])
+            U_5[i, j, k]  = gravity_potential_point(x, xm, m)
+            gz_5[i, j, k] = gravity_effect_point(x, xm, m)
 
-    return U_5, gz_5, U_25, gz_25
+# ---- 25 m grid ----
+for k, z in enumerate(z_levels):
+    for i in range(x_25.shape[0]):
+        for j in range(x_25.shape[1]):
+            x = np.array([x_25[i, j], y_25[i, j], z])
+            U_25[i, j, k]  = gravity_potential_point(x, xm, m)
+            gz_25[i, j, k] = gravity_effect_point(x, xm, m)
 
-U_5, gz_5, U_25, gz_25 = compute_field(
-    x_5, y_5, x_25, y_25, z_levels, xm, m
-)
 
 Umin = min(np.min(U_5), np.min(U_25))
 Umax = max(np.max(U_5), np.max(U_25))
