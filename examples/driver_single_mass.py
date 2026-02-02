@@ -82,7 +82,7 @@ for k, z in enumerate(z_levels):
     axG.set_ylabel("y (m)")
     axG.set_aspect("equal")
 
-fig.suptitle("Point Mass Gravity Fields – (dx = 25 m)", fontsize=20)
+fig.suptitle("Point Mass Gravity Fields – (dx = 5 m)", fontsize=20)
 plt.savefig('../figures/Point Mass Gravity Fields (dx = 5 m).png')
 
 fig, axes = plt.subplots(3, 2, figsize=(12, 16))
@@ -116,4 +116,4 @@ for k, z in enumerate(z_levels):
     axG.set_aspect("equal")
 
 fig.suptitle("Point Mass Gravity Fields – (dx = 25 m)", fontsize=20)
-plt.savefig('../figures/Point_Mass_Gravity_Fields_(dx=25m).png')
+plt.savefig('../figures/Point Mass Gravity Fields (dx=25m).png')
