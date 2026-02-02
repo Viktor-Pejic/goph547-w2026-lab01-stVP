@@ -64,7 +64,7 @@ for k, z in enumerate(z_levels):
     )
     axU.plot(x_5, y_5, "xk", markersize=2)
     fig.colorbar(cU, ax=axU)
-    axU.set_title(f"U at z = {z} m (Δx = 5 m)")
+    axU.set_title(f"U at z = {z} m")
     axU.set_xlabel("x (m)")
     axU.set_ylabel("y (m)")
     axU.set_aspect("equal")
