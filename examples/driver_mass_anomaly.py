@@ -70,4 +70,4 @@ cbar2 = fig.colorbar(c0, ax=axes[2])
 
 
 plt.tight_layout()
-#plt.show()
+plt.savefig('../figures/Anomaly in 3 planes.png')
