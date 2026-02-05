@@ -166,22 +166,53 @@ fig, axes = plt.subplots(2, 1, figsize=(8, 12))
 
 ax = axes[0]
 c = ax.contourf(x_5, y_5, dgdz_0, levels=20, cmap='viridis_r')
-ax.set_title(r'$\partial g_z / \partial z$ at z = 0 m')
+ax.set_title(r'$\partial g_z / \partial z$ at dz = 0 m')
 ax.set_xlabel('x (m)')
 ax.set_ylabel('y (m)')
 fig.colorbar(c, ax=ax)
 
 ax = axes[1]
 c = ax.contourf(x_5, y_5, dgdz_100, levels=20, cmap='viridis_r')
-ax.set_title(r'$\partial g_z / \partial z$ at z = 100 m')
+ax.set_title(r'$\partial g_z / \partial z$ at dz = 100 m')
 ax.set_xlabel('x (m)')
 ax.set_ylabel('y (m)')
 fig.colorbar(c, ax=ax)
 
-plt.tight_layout()
-plt.show()
-
-
-
 fig.suptitle('First Order Finite Difference (dg/dz)', fontsize=16)
 plt.savefig('../figures/First Order Finite Difference.png')
+
+gz_new_min = np.min(gz_new)
+gz_new_max = np.max(gz_new)
+
+fig, axes = plt.subplots(2, 2, figsize=(10, 12))
+
+ax = axes[0,0]
+c = ax.contourf(x_5, y_5, gz_new[:, :, 0], vmin=gz_min, vmax=gz_max)
+ax.set_title(f'Observation level: {z_levels[0]}m')
+ax.set_xlabel('x (m)')
+ax.set_ylabel('y (m)')
+fig.colorbar(c, ax=ax)
+
+ax = axes[0,1]
+c = ax.contourf(x_5, y_5, gz_new[:, :, 1],vmin=gz_min, vmax=gz_max)
+ax.set_title(f'Observation level: {z_levels[1]}m')
+ax.set_xlabel('x (m)')
+ax.set_ylabel('y (m)')
+fig.colorbar(c, ax=ax)
+
+ax = axes[1,0]
+c = ax.contourf(x_5, y_5, gz_new[:, :, 0], vmin=gz_new_min, vmax=gz_new_max)
+ax.set_title(f'Observation level: {z_levels_new[0]}m')
+ax.set_xlabel('x (m)')
+ax.set_ylabel('y (m)')
+fig.colorbar(c, ax=ax)
+
+ax = axes[1,1]
+c = ax.contourf(x_5, y_5, gz_new[:, :, 1], vmin= gz_new_min, vmax=gz_new_max)
+ax.set_title(f'Observation level: {z_levels_new[1]}m')
+ax.set_xlabel('x (m)')
+ax.set_ylabel('y (m)')
+fig.colorbar(c, ax=ax)
+
+fig.suptitle('Gravity at 0,1,100,110m', fontsize=16)
+plt.savefig('../figures/Gravity at 0,1,100,110m.png')
