@@ -156,10 +156,10 @@ for k, z_obs in enumerate(z_levels_new):
 
 # Finite differences
 dz0 = 1.0
-dz100 = 10.0
+dz10 = 10.0
 
 dgdz_0 = (gz_new[:, :, 0] - gz[:, :, 0]) / dz0
-dgdz_100 = (gz_new[:, :, 1] - gz[:, :, 1]) / dz100
+dgdz_10 = (gz_new[:, :, 1] - gz[:, :, 1]) / dz10
 
 # Plot
 fig, axes = plt.subplots(2, 1, figsize=(8, 12))
@@ -172,8 +172,8 @@ ax.set_ylabel('y (m)')
 fig.colorbar(c, ax=ax)
 
 ax = axes[1]
-c = ax.contourf(x_5, y_5, dgdz_100, levels=20, cmap='viridis_r')
-ax.set_title(r'$\partial g_z / \partial z$ at dz = 100 m')
+c = ax.contourf(x_5, y_5, dgdz_10, levels=20, cmap='viridis_r')
+ax.set_title(r'$\partial g_z / \partial z$ at dz = 10 m')
 ax.set_xlabel('x (m)')
 ax.set_ylabel('y (m)')
 fig.colorbar(c, ax=ax)
