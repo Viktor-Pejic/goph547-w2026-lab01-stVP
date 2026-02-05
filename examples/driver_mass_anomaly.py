@@ -1,4 +1,5 @@
 from scipy.io import loadmat
+from goph547lab01.gravity import gravity_effect_point
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -62,12 +63,77 @@ c2 = axes[2].contourf(X_xy, Y_xy, rho_xy.T, levels=20)
 axes[2].plot(xa, ya, 'xk', markersize=3)
 axes[2].set_xlabel('x (m)')
 axes[2].set_ylabel('y (m)')
-axes[2].set_xlim(20,-20)
+axes[2].set_xlim(-20,20)
 axes[2].set_ylim(25,-25)
 axes[2].set_title('Anomaly in xy-plane')
 cbar2 = fig.colorbar(c0, ax=axes[2])
 
 
+#Compute mean rho in cropped plot
+
+x_xz_min, x_xz_max = -20, 20
+z_xz_min, z_xz_max = -20, 0
+
+y_yz_min, y_yz_max = x_xz_min, x_xz_max
+z_yz_min, z_yz_max = z_xz_min, z_xz_max
+
+x_xy_min, x_xy_max = x_xz_min, x_xz_max
+y_xy_min, y_xy_max = -25,25
+
+#Compute index for value cutoffs
+ix_xz = np.where((x_vec >= x_xz_min) & (x_vec <= x_xz_max))[0]
+iz_xz = np.where((z_vec >= z_xz_min) & (z_vec <= z_xz_max))[0]
+
+iy_yz = np.where((y_vec >= y_yz_min) & (y_vec <= y_yz_max))[0]
+iz_yz = np.where((z_vec >= z_yz_min) & (z_vec <= z_yz_max))[0]
+
+ix_xy = np.where((x_vec >= x_xy_min) & (x_vec <= x_xy_max))[0]
+iy_xy = np.where((y_vec >= y_xy_min) & (y_vec <= y_xy_max))[0]
+
+rho_crop_xz = rho_xz[np.ix_(ix_xz, iz_xz)]
+rho_crop_yz = rho_yz[np.ix_(iy_yz, iz_yz)]
+rho_crop_xy = rho_xy[np.ix_(ix_xy, iy_xy)]
+
+mean_rho_xz = np.mean(rho_crop_xz)
+mean_rho_yz = np.mean(rho_crop_yz)
+mean_rho_xy = np.mean(rho_crop_xy)
+
+print(f"Mean rho in x-z plane: {mean_rho_xz}")
+print(f"Mean rho in y-z plane: {mean_rho_yz}")
+print(f"Mean rho in xy-plane: {mean_rho_xy}")
 
 plt.tight_layout()
 plt.savefig('../figures/Anomaly in 3 planes.png')
+
+z_levels = [0, 100]
+mass = total_mass
+
+x_5, y_5 = np.meshgrid(
+    np.linspace(-100, 100, 41),
+    np.linspace(-100, 100, 41)
+)
+
+#Initialize gravity array
+gz_5 = np.zeros((x_5.shape[0], x_5.shape[1], len(z_levels)))
+
+for k, z_obs in enumerate(z_levels):
+    for i in range(x_5.shape[0]):
+        for j in range(x_5.shape[1]):
+            x = np.array([x_5[i, j], y_5[i, j], z_obs])
+            gz_5[i, j, k] = gravity_effect_point(x, anomalyPosition, mass)
+
+gz_min = np.min(gz_5)
+gz_max = np.max(gz_5)
+
+fig, axes = plt.subplots(2, 1, figsize=(8, 12))
+
+for k, z_obs in enumerate(z_levels):
+    ax = axes[k]
+    c = ax.contourf(x_5, y_5, gz_5[:, :, k], levels=20, vmin=gz_min, vmax=gz_max, cmap = 'viridis_r')
+    ax.set_xlabel('x (m)')
+    ax.set_ylabel('y (m)')
+    ax.set_title(f'Gravitational Effect at z = {z_obs} m')
+    fig.colorbar(c, ax=ax)
+
+fig.suptitle('Anomaly Gravity Effect at \nGround and Airborne Observation', fontsize=16)
+plt.savefig('../figures/Anomaly Gravity Effect Forward Modelling.png')
