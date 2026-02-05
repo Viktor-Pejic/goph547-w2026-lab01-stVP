@@ -114,22 +114,22 @@ x_5, y_5 = np.meshgrid(
 )
 
 #Initialize gravity array
-gz_5 = np.zeros((x_5.shape[0], x_5.shape[1], len(z_levels)))
+gz = np.zeros((x_5.shape[0], x_5.shape[1], len(z_levels)))
 
 for k, z_obs in enumerate(z_levels):
     for i in range(x_5.shape[0]):
         for j in range(x_5.shape[1]):
             x = np.array([x_5[i, j], y_5[i, j], z_obs])
-            gz_5[i, j, k] = gravity_effect_point(x, anomalyPosition, mass)
+            gz[i, j, k] = gravity_effect_point(x, anomalyPosition, mass)
 
-gz_min = np.min(gz_5)
-gz_max = np.max(gz_5)
+gz_min = np.min(gz)
+gz_max = np.max(gz)
 
 fig, axes = plt.subplots(2, 1, figsize=(8, 12))
 
 for k, z_obs in enumerate(z_levels):
     ax = axes[k]
-    c = ax.contourf(x_5, y_5, gz_5[:, :, k], levels=20, vmin=gz_min, vmax=gz_max, cmap = 'viridis_r')
+    c = ax.contourf(x_5, y_5, gz[:, :, k], levels=20, vmin=gz_min, vmax=gz_max, cmap = 'viridis_r')
     ax.set_xlabel('x (m)')
     ax.set_ylabel('y (m)')
     ax.set_title(f'Gravitational Effect at z = {z_obs} m')
@@ -137,3 +137,15 @@ for k, z_obs in enumerate(z_levels):
 
 fig.suptitle('Anomaly Gravity Effect at \nGround and Airborne Observation', fontsize=16)
 plt.savefig('../figures/Anomaly Gravity Effect Forward Modelling.png')
+
+z_levels_new = [1,110]
+
+#Initialize gravity array
+gz_new = np.zeros((x_5.shape[0], x_5.shape[1], len(z_levels)))
+
+for k, z_obs in enumerate(z_levels_new):
+    for i in range(x_5.shape[0]):
+        for j in range(x_5.shape[1]):
+            x = np.array([x_5[i, j], y_5[i, j], z_obs])
+            gz_new[i, j, k] = gravity_effect_point(x, anomalyPosition, mass)
+
