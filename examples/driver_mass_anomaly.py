@@ -138,14 +138,50 @@ for k, z_obs in enumerate(z_levels):
 fig.suptitle('Anomaly Gravity Effect at \nGround and Airborne Observation', fontsize=16)
 plt.savefig('../figures/Anomaly Gravity Effect Forward Modelling.png')
 
-z_levels_new = [1,110]
 
-#Initialize gravity array
-gz_new = np.zeros((x_5.shape[0], x_5.shape[1], len(z_levels)))
+# Finite difference heights
+z_levels_new = [1.0, 110.0]
 
+# Initialize gravity array
+gz_new = np.zeros((x_5.shape[0], x_5.shape[1], len(z_levels_new)))
+
+# Forward model at new heights
 for k, z_obs in enumerate(z_levels_new):
     for i in range(x_5.shape[0]):
         for j in range(x_5.shape[1]):
-            x = np.array([x_5[i, j], y_5[i, j], z_obs])
-            gz_new[i, j, k] = gravity_effect_point(x, anomalyPosition, mass)
+            obs_point = np.array([x_5[i, j], y_5[i, j], z_obs])
+            gz_new[i, j, k] = gravity_effect_point(
+                obs_point, anomalyPosition, mass
+            )
 
+# Finite differences
+dz0 = 1.0
+dz100 = 10.0
+
+dgdz_0 = (gz_new[:, :, 0] - gz[:, :, 0]) / dz0
+dgdz_100 = (gz_new[:, :, 1] - gz[:, :, 1]) / dz100
+
+# Plot
+fig, axes = plt.subplots(2, 1, figsize=(8, 12))
+
+ax = axes[0]
+c = ax.contourf(x_5, y_5, dgdz_0, levels=20, cmap='viridis_r')
+ax.set_title(r'$\partial g_z / \partial z$ at z = 0 m')
+ax.set_xlabel('x (m)')
+ax.set_ylabel('y (m)')
+fig.colorbar(c, ax=ax)
+
+ax = axes[1]
+c = ax.contourf(x_5, y_5, dgdz_100, levels=20, cmap='viridis_r')
+ax.set_title(r'$\partial g_z / \partial z$ at z = 100 m')
+ax.set_xlabel('x (m)')
+ax.set_ylabel('y (m)')
+fig.colorbar(c, ax=ax)
+
+plt.tight_layout()
+plt.show()
+
+
+
+fig.suptitle('First Order Finite Difference (dg/dz)', fontsize=16)
+plt.savefig('../figures/First Order Finite Difference.png')
