@@ -190,14 +190,14 @@ d2gdz2_10_laplace = laplace(gz[:, :, 1], dx, dy)
 fig, axes = plt.subplots(2, 1, figsize=(8, 12))
 
 ax = axes[0]
-c = ax.contourf(x_5, y_5, dgdz_0, levels=20, cmap='viridis_r')
+c = ax.contourf(x_5, y_5, dgdz_0, levels=20, cmap='viridis')
 ax.set_title(r'$\partial g_z / \partial z$ at dz = 0 m')
 ax.set_xlabel('x (m)')
 ax.set_ylabel('y (m)')
 fig.colorbar(c, ax=ax)
 
 ax = axes[1]
-c = ax.contourf(x_5, y_5, dgdz_10, levels=20, cmap='viridis_r')
+c = ax.contourf(x_5, y_5, dgdz_10, levels=20, cmap='viridis')
 ax.set_title(r'$\partial g_z / \partial z$ at dz = 10 m')
 ax.set_xlabel('x (m)')
 ax.set_ylabel('y (m)')
