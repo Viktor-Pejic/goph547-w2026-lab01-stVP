@@ -1,3 +1,12 @@
+import os
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+FIG_DIR = os.path.join(PROJECT_ROOT, "figures")
+
+os.makedirs(FIG_DIR, exist_ok=True)
+
+
 from examples.generate_mass_sets import generate_mass_set
 from goph547lab01.gravity import gravity_effect_point
 from goph547lab01.gravity import gravity_potential_point
@@ -55,7 +64,7 @@ def generate_plot(U, gz, x, y, Umin, Umax, gzmin, gzmax, grid, mass_set):
         axG.set_aspect("equal")
 
     fig.suptitle(f"Multi Mass Gravity Fields – (dx = {grid}m) - mass set {mass_set}", fontsize=20)
-    plt.savefig(f'../figures/Multi Mass Gravity Fields – (dx = {grid}m) - mass set {mass_set}.png')
+    plt.savefig(os.path.join(FIG_DIR, f'Multi Mass Gravity Fields – (dx = {grid}m) - mass set {mass_set}.png'))
 
 def main():
     d1 = loadmat("mass_set_1.mat")

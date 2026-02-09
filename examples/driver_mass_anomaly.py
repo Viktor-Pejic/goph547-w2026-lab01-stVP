@@ -1,3 +1,12 @@
+import os
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+FIG_DIR = os.path.join(PROJECT_ROOT, "figures")
+
+os.makedirs(FIG_DIR, exist_ok=True)
+
+
 from scipy.io import loadmat
 from goph547lab01.gravity import gravity_effect_point
 import matplotlib.pyplot as plt
@@ -106,7 +115,7 @@ print(f"Mean rho in y-z plane: {mean_rho_yz}")
 print(f"Mean rho in xy-plane: {mean_rho_xy}")
 
 plt.tight_layout()
-plt.savefig('../figures/Anomaly in 3 planes.png')
+plt.savefig(os.path.join(FIG_DIR, 'Anomaly in 3 planes.png'))
 
 z_levels = [0, 100]
 mass = total_mass
@@ -142,7 +151,7 @@ for k, z_obs in enumerate(z_levels):
     fig.colorbar(c, ax=ax)
 
 fig.suptitle('Anomaly Gravity Effect at \nGround and Airborne Observation', fontsize=16)
-plt.savefig('../figures/Anomaly Gravity Effect Forward Modelling.png')
+plt.savefig(os.path.join(FIG_DIR, 'Anomaly Gravity Effect Forward Modelling.png'))
 
 
 # Finite difference heights
@@ -204,7 +213,7 @@ ax.set_ylabel('y (m)')
 fig.colorbar(c, ax=ax)
 
 fig.suptitle('First Order Finite Difference (dg/dz)', fontsize=16)
-plt.savefig('../figures/First Order Finite Difference.png')
+plt.savefig(os.path.join(FIG_DIR, 'First Order Finite Difference.png'))
 
 gz_new_min = np.min(gz_new)
 gz_new_max = np.max(gz_new)
@@ -244,7 +253,7 @@ ax.set_ylabel('y (m)')
 fig.colorbar(c, ax=ax)
 
 fig.suptitle('Gravity at 0,1,100,110m', fontsize=16)
-plt.savefig('../figures/Gravity at 0,1,100,110m.png')
+plt.savefig(os.path.join(FIG_DIR, 'Gravity at 0,1,100,110m.png'))
 
 
 
@@ -267,4 +276,4 @@ ax.set_ylabel('y (m)')
 fig.colorbar(c, ax=ax)
 
 fig.suptitle('Second Order Finite Difference (d2g/dz2)', fontsize=16)
-plt.savefig('../figures/Second Order Finite Difference.png')
+plt.savefig(os.path.join(FIG_DIR, 'Second Order Finite Difference.png'))

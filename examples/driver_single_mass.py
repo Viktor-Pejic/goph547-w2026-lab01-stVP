@@ -1,3 +1,11 @@
+import os
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+FIG_DIR = os.path.join(PROJECT_ROOT, "figures")
+
+os.makedirs(FIG_DIR, exist_ok=True)
+
 from goph547lab01.gravity import gravity_effect_point, gravity_potential_point
 import numpy as np
 import matplotlib.pyplot as plt
@@ -78,7 +86,7 @@ for k, z in enumerate(z_levels):
     axG.set_aspect("equal")
 
 fig.suptitle("Point Mass Gravity Fields – (dx = 5m)", fontsize=20)
-plt.savefig('../figures/Point Mass Gravity Fields (dx = 5 m).png')
+plt.savefig(os.path.join(FIG_DIR, 'Point Mass Gravity Fields (dx = 5 m).png'))
 
 fig, axes = plt.subplots(3, 2, figsize=(12, 16))
 
@@ -111,4 +119,4 @@ for k, z in enumerate(z_levels):
     axG.set_aspect("equal")
 
 fig.suptitle("Point Mass Gravity Fields – (dx = 25m)", fontsize=20)
-plt.savefig('../figures/Point Mass Gravity Fields (dx=25m).png')
+plt.savefig(os.path.join(FIG_DIR, 'Point Mass Gravity Fields (dx=25m).png'))
