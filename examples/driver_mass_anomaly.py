@@ -213,7 +213,7 @@ gz_new_max = np.max(gz_new)
 
 
 #Plot 2x2 Grid
-fig, axes = plt.subplots(2, 2, figsize=(10, 12))
+fig, axes = plt.subplots(2, 2, figsize=(12, 12))
 
 ax = axes[0,0]
 c = ax.contourf(x_5, y_5, gz_new[:, :, 0], vmin=gz_min, vmax=gz_max)
