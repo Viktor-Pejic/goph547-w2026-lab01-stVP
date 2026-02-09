@@ -39,6 +39,8 @@ Y_yz, Z_yz = np.meshgrid(y_vec, z_vec)
 rho_xy = np.mean(rho, axis=2)
 X_xy, Y_xy = np.meshgrid(x_vec, y_vec)
 
+
+#Plot density cross-sections
 fig, axes = plt.subplots(3, 1, figsize=(8, 12))
 
 c0 = axes[0].contourf(X_xz, Z_xz, rho_xz.T, levels=20)
@@ -70,7 +72,6 @@ cbar2 = fig.colorbar(c0, ax=axes[2])
 
 
 #Compute mean rho in cropped plot
-
 x_xz_min, x_xz_max = -20, 20
 z_xz_min, z_xz_max = -20, 0
 
@@ -79,6 +80,8 @@ z_yz_min, z_yz_max = z_xz_min, z_xz_max
 
 x_xy_min, x_xy_max = x_xz_min, x_xz_max
 y_xy_min, y_xy_max = -25,25
+
+
 
 #Compute index for value cutoffs
 ix_xz = np.where((x_vec >= x_xz_min) & (x_vec <= x_xz_max))[0]
@@ -113,6 +116,7 @@ x_5, y_5 = np.meshgrid(
     np.linspace(-100, 100, 41)
 )
 
+
 #Initialize gravity array
 gz = np.zeros((x_5.shape[0], x_5.shape[1], len(z_levels)))
 
@@ -125,6 +129,8 @@ for k, z_obs in enumerate(z_levels):
 gz_min = np.min(gz)
 gz_max = np.max(gz)
 
+
+# Plot gravitational effect of anomaly data
 fig, axes = plt.subplots(2, 1, figsize=(8, 12))
 
 for k, z_obs in enumerate(z_levels):
@@ -161,6 +167,9 @@ dz10 = 10.0
 dgdz_0 = (gz_new[:, :, 0] - gz[:, :, 0]) / dz0
 dgdz_10 = (gz_new[:, :, 1] - gz[:, :, 1]) / dz10
 
+
+
+
 #Second Order Finite Difference
 dx = x_5[0,1] - x_5[0,0]
 dy = y_5[1,0] - y_5[0,0]
@@ -172,26 +181,6 @@ def laplace(gz_slice,dx, dy):
 
 d2gdz2_0_laplace = laplace(gz[:, :, 0], dx, dy)
 d2gdz2_10_laplace = laplace(gz[:, :, 1], dx, dy)
-
-#Plot Second Order Finite Difference
-fig, axes = plt.subplots(2, 1, figsize=(8, 12))
-
-ax = axes[0]
-c = ax.contourf(x_5, y_5, d2gdz2_0_laplace, levels=20, cmap='viridis_r')
-ax.set_title('dg2/dz2 at dz = 0 m')
-ax.set_xlabel('x (m)')
-ax.set_ylabel('y (m)')
-fig.colorbar(c, ax=ax)
-
-ax = axes[1]
-c = ax.contourf(x_5, y_5, d2gdz2_10_laplace, levels=20, cmap='viridis_r')
-ax.set_title('dg2/dz2 at dz = 10 m')
-ax.set_xlabel('x (m)')
-ax.set_ylabel('y (m)')
-fig.colorbar(c, ax=ax)
-
-fig.suptitle('Second Order Finite Difference (d2g/dz2)', fontsize=16)
-plt.savefig('../figures/Second Order Finite Difference.png')
 
 
 
@@ -219,6 +208,9 @@ plt.savefig('../figures/First Order Finite Difference.png')
 
 gz_new_min = np.min(gz_new)
 gz_new_max = np.max(gz_new)
+
+
+
 
 #Plot 2x2 Grid
 fig, axes = plt.subplots(2, 2, figsize=(10, 12))
@@ -254,3 +246,25 @@ fig.colorbar(c, ax=ax)
 fig.suptitle('Gravity at 0,1,100,110m', fontsize=16)
 plt.savefig('../figures/Gravity at 0,1,100,110m.png')
 
+
+
+
+#Plot Second Order Finite Difference
+fig, axes = plt.subplots(2, 1, figsize=(8, 12))
+
+ax = axes[0]
+c = ax.contourf(x_5, y_5, d2gdz2_0_laplace, levels=20, cmap='viridis_r')
+ax.set_title('dg2/dz2 at dz = 0 m')
+ax.set_xlabel('x (m)')
+ax.set_ylabel('y (m)')
+fig.colorbar(c, ax=ax)
+
+ax = axes[1]
+c = ax.contourf(x_5, y_5, d2gdz2_10_laplace, levels=20, cmap='viridis_r')
+ax.set_title('dg2/dz2 at dz = 10 m')
+ax.set_xlabel('x (m)')
+ax.set_ylabel('y (m)')
+fig.colorbar(c, ax=ax)
+
+fig.suptitle('Second Order Finite Difference (d2g/dz2)', fontsize=16)
+plt.savefig('../figures/Second Order Finite Difference.png')
