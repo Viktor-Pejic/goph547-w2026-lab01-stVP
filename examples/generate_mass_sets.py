@@ -1,9 +1,6 @@
-from goph547lab01.gravity import gravity_effect_point
-from goph547lab01.gravity import gravity_potential_point
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.io import savemat
-from scipy.io import loadmat
+
 
 m = 1e7
 
