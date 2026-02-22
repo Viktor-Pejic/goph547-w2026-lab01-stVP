@@ -225,28 +225,28 @@ gz_new_max = np.max(gz_new)
 fig, axes = plt.subplots(2, 2, figsize=(12, 12))
 
 ax = axes[0,0]
-c = ax.contourf(x_5, y_5, gz_new[:, :, 0], vmin=gz_min, vmax=gz_max)
+c = ax.contourf(x_5, y_5, gz_new[:, :, 0], vmin=gz_min, vmax=gz_max, cmap="viridis_r")
 ax.set_title(f'Observation level: {z_levels[0]}m')
 ax.set_xlabel('x (m)')
 ax.set_ylabel('y (m)')
 fig.colorbar(c, ax=ax)
 
 ax = axes[0,1]
-c = ax.contourf(x_5, y_5, gz_new[:, :, 1],vmin=gz_min, vmax=gz_max)
+c = ax.contourf(x_5, y_5, gz_new[:, :, 1],vmin=gz_min, vmax=gz_max, cmap="viridis_r")
 ax.set_title(f'Observation level: {z_levels[1]}m')
 ax.set_xlabel('x (m)')
 ax.set_ylabel('y (m)')
 fig.colorbar(c, ax=ax)
 
 ax = axes[1,0]
-c = ax.contourf(x_5, y_5, gz_new[:, :, 0], vmin=gz_new_min, vmax=gz_new_max)
+c = ax.contourf(x_5, y_5, gz_new[:, :, 0], vmin=gz_new_min, vmax=gz_new_max, cmap="viridis_r")
 ax.set_title(f'Observation level: {z_levels_new[0]}m')
 ax.set_xlabel('x (m)')
 ax.set_ylabel('y (m)')
 fig.colorbar(c, ax=ax)
 
 ax = axes[1,1]
-c = ax.contourf(x_5, y_5, gz_new[:, :, 1], vmin= gz_new_min, vmax=gz_new_max)
+c = ax.contourf(x_5, y_5, gz_new[:, :, 1], vmin= gz_new_min, vmax=gz_new_max, cmap="viridis_r")
 ax.set_title(f'Observation level: {z_levels_new[1]}m')
 ax.set_xlabel('x (m)')
 ax.set_ylabel('y (m)')
